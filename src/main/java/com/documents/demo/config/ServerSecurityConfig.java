@@ -17,7 +17,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable() //for disable fake query
             .authorizeRequests()
                 .anyRequest().permitAll()
-
         ;
     }
 }
