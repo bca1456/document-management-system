@@ -1,10 +1,9 @@
 package com.documents.demo.domain;
 
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -13,9 +12,19 @@ public class Document {
     @Id
     @GeneratedValue
     private int id;
-    private Date creationDate;
+
+  //  @todo need to fix
+    @Column(name = "creation_date")
+//    @Temporal(TemporalType.DATE)
+    private LocalDate creationDate;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "author")
     private String author;
+
+    @Column(name = "file")
     private File file;
 
     public int getId() {
@@ -26,11 +35,11 @@ public class Document {
         this.id = id;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
