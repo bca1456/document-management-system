@@ -2,9 +2,11 @@ package com.documents.demo.domain;
 
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cglib.core.Local;
 
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -13,7 +15,7 @@ public class Document {
     @Id
     @GeneratedValue
     private int id;
-    private Date creationDate;
+    private LocalDate creationDate;
     private String status;
     private String author;
     private File file;
@@ -26,11 +28,11 @@ public class Document {
         this.id = id;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
