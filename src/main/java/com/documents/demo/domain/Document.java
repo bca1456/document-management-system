@@ -1,13 +1,8 @@
 package com.documents.demo.domain;
 
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.cglib.core.Local;
-
 import javax.persistence.*;
-import java.io.File;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "documents")
@@ -18,7 +13,7 @@ public class Document {
     private LocalDate creationDate;
     private String status;
     private String author;
-    private File file;
+    private String file;
 
     public int getId() {
         return id;
@@ -52,11 +47,11 @@ public class Document {
         this.author = author;
     }
 
-    public File getFile() {
+    public String getFile() {
         return file;
     }
 
-    public void setFile(File file) {
+    public void setFile(String file) {
         this.file = file;
     }
 }
