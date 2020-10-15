@@ -10,9 +10,17 @@ public class Document {
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
+
+    @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "file")
     private String file;
 
     public int getId() {

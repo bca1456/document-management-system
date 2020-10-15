@@ -21,9 +21,10 @@ public class DocumentController {
         return "okay";
     }
 
-    //@todo need to fix (when execute this path error "invalid stream header: 6976616E")
     @RequestMapping("/all")
     public List<Document> findAll(){
         return this.documentService.findAll();
     }
+
+
 }
