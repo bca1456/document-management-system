@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class DocumentInit implements ApplicationRunner {
 
     @Autowired
-    private DocumentRepository documentRepository;
+    private final DocumentRepository documentRepository;
 
     @Autowired
     private DocumentInit(DocumentRepository documentRepository){

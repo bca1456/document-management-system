@@ -13,7 +13,10 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors() .and()
+            .headers().frameOptions().disable() //need for showing h2db in browser (clickjaking)
+                .and()
+            .cors()
+                .and()
             .csrf().disable() //for disable fake query
             .authorizeRequests()
                 .anyRequest().permitAll()
