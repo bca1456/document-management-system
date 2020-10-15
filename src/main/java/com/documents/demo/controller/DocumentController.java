@@ -3,11 +3,10 @@ package com.documents.demo.controller;
 import com.documents.demo.domain.Document;
 import com.documents.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.print.Doc;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/document")
@@ -26,5 +25,15 @@ public class DocumentController {
         return this.documentService.findAll();
     }
 
+    @RequestMapping("/{document_id}")
+    public Optional<Document> findById(@PathVariable("document_id") int document_id){
+        return documentService.findById(document_id);
+    }
+
+    @PostMapping("/add")
+    public void addDocument(@RequestBody Document document){
+        System.out.println(document.getCreationDate());
+        documentService.addDocument(document);
+    }
 
 }

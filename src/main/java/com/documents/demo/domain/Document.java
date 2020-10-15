@@ -2,13 +2,14 @@ package com.documents.demo.domain;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "documents")
-public class Document {
+public class Document implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "creation_date", nullable = false)
