@@ -32,8 +32,13 @@ public class DocumentController {
 
     @PostMapping("/add")
     public void addDocument(@RequestBody Document document){
-        System.out.println(document.getCreationDate());
-        documentService.addDocument(document);
+//        System.out.println(document.getCreationDate());
+        documentService.addNew(document);
+    }
+
+    @DeleteMapping("/{document_id}")
+    public void deleteDocument(@PathVariable("document_id") int document_id){
+        documentService.deleteById(document_id);
     }
 
 }

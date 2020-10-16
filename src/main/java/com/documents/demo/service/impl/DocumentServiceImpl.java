@@ -26,7 +26,12 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void addDocument(Document document) {
+    public void addNew(Document document) {
         documentRepository.save(document);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        documentRepository.deleteById(id);
     }
 }
