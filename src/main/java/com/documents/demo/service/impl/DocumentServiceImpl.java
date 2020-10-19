@@ -40,9 +40,12 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public boolean update(Document document) {
         if (documentRepository.findById(document.getId()).isPresent()) {
-            documentRepository.deleteById(document.getId());
-            Document newDocument = new Document(document.getId(), document.getCreationDate(), document.getStatus(), document.getAuthor(), document.getFile());
-            documentRepository.save(newDocument);
+            Document documentToUpdate = documentRepository.getOne(document.getId());
+            documentToUpdate.setCreationDate(document.getCreationDate());
+            documentToUpdate.setStatus(document.getStatus());
+            documentToUpdate.setFile(document.getFile());
+            documentToUpdate.setAuthor(document.getAuthor());
+            documentRepository.save(documentToUpdate);
             return true;
         }
         return false;
