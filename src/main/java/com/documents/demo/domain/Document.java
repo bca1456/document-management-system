@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "documents")
-public class Document implements Serializable {
+public class Document extends PaperList implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,6 +23,28 @@ public class Document implements Serializable {
 
     @Column(name = "file")
     private String file;
+
+    public Document() {
+        super();
+    }
+
+    public Document(int id, LocalDate creationDate, String status, String author, String file) {
+        super();
+        this.id = id;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.author = author;
+        this.file = file;
+    }
+
+    public Document(Format paperFormat, int id, LocalDate creationDate, String status, String author, String file) {
+        super(paperFormat);
+        this.id = id;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.author = author;
+        this.file = file;
+    }
 
     public int getId() {
         return id;

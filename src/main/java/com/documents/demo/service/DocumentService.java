@@ -11,4 +11,5 @@ public interface DocumentService {
     Optional<Document> findById(int id);
     void addNew(Document document);
     void deleteById(int id);
+    boolean update(Document document);
 }

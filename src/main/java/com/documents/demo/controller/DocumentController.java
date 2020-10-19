@@ -2,9 +2,11 @@ package com.documents.demo.controller;
 
 import com.documents.demo.domain.Document;
 import com.documents.demo.service.DocumentService;
+import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,14 @@ public class DocumentController {
     @DeleteMapping("/{document_id}")
     public void deleteDocument(@PathVariable("document_id") int document_id){
         documentService.deleteById(document_id);
+    }
+
+    @PutMapping("/update")
+    public String updateDocument(@RequestBody Document document){
+        if(documentService.update(document)){
+            return "ok";
+        }
+        return "gg";
     }
 
 }
