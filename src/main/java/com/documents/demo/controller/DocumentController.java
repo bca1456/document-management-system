@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,20 +34,26 @@ public class DocumentController {
     }
 
     @PostMapping("/add")
-    public void addDocument(@RequestBody Document document){
+    public Serializable addDocument(@RequestBody Document document){
 //        System.out.println(document.getCreationDate());
-        documentService.addNew(document);
+        if (documentService.addNew(document)){
+            return document;
+        }
+        return "gg";
     }
 
     @DeleteMapping("/{document_id}")
-    public void deleteDocument(@PathVariable("document_id") int document_id){
-        documentService.deleteById(document_id);
+    public Serializable deleteDocument(@PathVariable("document_id") int document_id){
+        if (documentService.deleteById(document_id)){
+            return "ok";
+        }
+        return "gg";
     }
 
     @PutMapping("/update")
-    public String updateDocument(@RequestBody Document document){
+    public Serializable updateDocument(@RequestBody Document document){
         if(documentService.update(document)){
-            return "ok";
+            return document;
         }
         return "gg";
     }

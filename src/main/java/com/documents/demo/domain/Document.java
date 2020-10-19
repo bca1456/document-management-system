@@ -85,4 +85,26 @@ public class Document extends PaperList implements Serializable {
     public void setFile(String file) {
         this.file = file;
     }
+
+    @Override
+    public Format getPaperFormat() {
+        return super.getPaperFormat();
+    }
+
+    @Override
+    public void setPaperFormat(Format paperFormat) {
+        super.setPaperFormat(paperFormat);
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id=" + id +
+                ", creationDate=" + creationDate +
+                ", status='" + status + '\'' +
+                ", author='" + author + '\'' +
+                ", file='" + file + '\'' +
+                ", paperFormat=" + paperFormat +
+                '}';
+    }
 }

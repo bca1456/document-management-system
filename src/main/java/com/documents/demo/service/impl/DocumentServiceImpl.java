@@ -28,13 +28,21 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void addNew(Document document) {
-        documentRepository.save(document);
+    public boolean addNew(Document document) {
+        if (document != null) {
+            documentRepository.save(document);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void deleteById(int id) {
-        documentRepository.deleteById(id);
+    public boolean deleteById(int id) {
+        if (documentRepository.findById(id).isPresent()) {
+            documentRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -45,6 +53,7 @@ public class DocumentServiceImpl implements DocumentService {
             documentToUpdate.setStatus(document.getStatus());
             documentToUpdate.setFile(document.getFile());
             documentToUpdate.setAuthor(document.getAuthor());
+            documentToUpdate.setPaperFormat(document.getPaperFormat());
             documentRepository.save(documentToUpdate);
             return true;
         }
