@@ -4,12 +4,9 @@ import com.documents.demo.domain.Document;
 import com.documents.demo.repos.DocumentRepository;
 import com.documents.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -23,8 +20,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Optional<Document> findById(int id) {
-        return documentRepository.findById(id);
+    public Document findById(int id) {
+        return documentRepository.findById(id).orElse(new Document());
     }
 
     @Override

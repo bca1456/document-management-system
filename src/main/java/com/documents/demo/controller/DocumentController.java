@@ -2,14 +2,11 @@ package com.documents.demo.controller;
 
 import com.documents.demo.domain.Document;
 import com.documents.demo.service.DocumentService;
-import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.Doc;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/document")
@@ -29,7 +26,7 @@ public class DocumentController {
     }
 
     @RequestMapping("/{document_id}")
-    public Optional<Document> findById(@PathVariable("document_id") int document_id){
+    public Document findById(@PathVariable("document_id") int document_id){
         return documentService.findById(document_id);
     }
 

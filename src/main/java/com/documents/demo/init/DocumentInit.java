@@ -1,14 +1,18 @@
 package com.documents.demo.init;
 
 import com.documents.demo.domain.Document;
+import com.documents.demo.domain.Role;
+import com.documents.demo.domain.User;
 import com.documents.demo.repos.DocumentRepository;
-import com.documents.demo.service.DocumentService;
+import com.documents.demo.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
 
 @Component
 public class DocumentInit implements ApplicationRunner {
@@ -17,8 +21,12 @@ public class DocumentInit implements ApplicationRunner {
     private final DocumentRepository documentRepository;
 
     @Autowired
-    private DocumentInit(DocumentRepository documentRepository){
+    private final UserRepository userRepository;
+
+    @Autowired
+    private DocumentInit(DocumentRepository documentRepository, UserRepository userRepository){
         this.documentRepository = documentRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -52,6 +60,23 @@ public class DocumentInit implements ApplicationRunner {
             documentRepository.save(document2);
             documentRepository.save(document3);
             documentRepository.save(document4);
+        }
+
+        if(userRepository.count() == 0){
+
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword("admin");
+            admin.setRoles(Collections.singleton(new Role("ROLE_ADMIN")));
+
+
+            User user = new User();
+            user.setUsername("user");
+            user.setPassword("user");
+            user.setRoles(Collections.singleton(new Role("ROLE_USER")));
+
+            userRepository.save(admin);
+            userRepository.save(user);
         }
     }
 }
