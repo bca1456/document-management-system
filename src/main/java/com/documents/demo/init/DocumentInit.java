@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Set;
 
-@Component
+/*@Component
 public class DocumentInit implements ApplicationRunner {
 
     @Autowired
@@ -79,4 +79,4 @@ public class DocumentInit implements ApplicationRunner {
             userRepository.save(user);
         }
     }
-}
+}*/

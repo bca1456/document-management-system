@@ -6,18 +6,17 @@ import com.documents.demo.repos.RoleRepository;
 import com.documents.demo.repos.UserRepository;
 import com.documents.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -28,17 +27,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
     public List<User> findAll() {
-        return null;
+        return userRepository.findAll();
     }
 
-    @Override
     public User findById(int id) {
        return userRepository.findById(id).orElse(new User());
     }
 
-    @Override
     public boolean addNew(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
@@ -52,22 +48,34 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
     public boolean deleteById(int id) {
         return false;
     }
 
-    @Override
     public boolean update(User user) {
         return false;
     }
 
-    public User findByUsername(String username) throws UsernameNotFoundException{
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
 
         if (user == null){
             throw new UsernameNotFoundException("User not found");
         }
+
+
+        /*String password = user.getPassword();
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+
+        System.out.println();
+        System.out.println("Password is         : " + password);
+        System.out.println("Encoded Password is : " + encodedPassword);
+        System.out.println();
+
+
+        boolean isPasswordMatch = bCryptPasswordEncoder.matches(password, encodedPassword);
+        System.out.println("Password : " + password + "   isPasswordMatch    : " + isPasswordMatch);*/
 
         return user;
     }

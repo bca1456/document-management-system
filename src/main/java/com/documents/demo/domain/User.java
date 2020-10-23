@@ -21,8 +21,13 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Transient //field not displayed in db
+//    @Transient //field not displayed in db
     @ManyToMany(fetch = FetchType.EAGER)  //roles load when program start
+    @JoinTable(
+            name = "t_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles;
 
     public int getId() {
@@ -53,22 +58,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public void setPassword(String password) {
