@@ -16,7 +16,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @RequestMapping("/")
     public List<User> allUsers(){
         return userService.findAll();
     }
