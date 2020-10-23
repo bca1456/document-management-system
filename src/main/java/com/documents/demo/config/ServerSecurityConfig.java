@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,16 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //config class
 
 @Configuration
+@EnableWebSecurity
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserServiceImpl userService;
-
-    /*For encode pass*/
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,32 +32,46 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .csrf().disable() //for disable fake query
             .authorizeRequests()
-                .mvcMatchers("/api/v1/registration").permitAll()
                 //for non authorized users
-                .mvcMatchers("/api/v1/registration").permitAll()
-                .mvcMatchers("/swagger-ui").permitAll()
-                .mvcMatchers("/h2-console").permitAll()
+                .antMatchers("/api/v1/registration").not().fullyAuthenticated()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 //only for admins
-                .mvcMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                //only for users
-                .mvcMatchers("/api/v1/document/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                //only for users/admins
+                .antMatchers("/api/v1/document/**").hasAnyRole("USER", "ADMIN")
             //other pages need authenticate
-//            .anyRequest().authenticated()//permitAll()
-            .and().httpBasic()
+            .anyRequest().authenticated()//permitAll()
             .and()
                 .formLogin()
-//                .loginPage("/login")
-                //success when login
-                .successForwardUrl("/")
-                .permitAll()
+                    .loginPage("/login")
+                    //success when login
+                    .successForwardUrl("/")
+                    .permitAll()
             .and()
                 .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
+                    .permitAll()
+                    .logoutSuccessUrl("/")
+            .and().httpBasic();
     }
 
-    @Autowired
+    /*For encode pass*/
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /*@Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.authenticationProvider(authProvider())
+            .userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+    }*/
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        return authProvider;
     }
 }

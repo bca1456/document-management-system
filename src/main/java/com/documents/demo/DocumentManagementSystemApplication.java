@@ -11,8 +11,6 @@ public class DocumentManagementSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DocumentManagementSystemApplication.class, args);
-
-
     }
 
 }
