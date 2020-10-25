@@ -4,6 +4,9 @@ import com.documents.demo.domain.Document;
 import com.documents.demo.repos.DocumentRepository;
 import com.documents.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +58,10 @@ public class DocumentServiceImpl implements DocumentService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Page<Document> findPaginated(int page, int size) {
+        return documentRepository.findAll(PageRequest.of(page, size));
     }
 }

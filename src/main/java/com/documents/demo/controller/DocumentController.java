@@ -3,6 +3,7 @@ package com.documents.demo.controller;
 import com.documents.demo.domain.Document;
 import com.documents.demo.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
@@ -20,9 +21,14 @@ public class DocumentController {
         return "okay";
     }
 
-    @RequestMapping("/all")
+    @RequestMapping(value = "/all")
     public List<Document> findAll(){
-        return this.documentService.findAll();
+       return this.documentService.findAll();
+    }
+
+    @RequestMapping(value = "/all", params = { "page", "size" })
+    public Page<Document> findAll(@RequestParam("page") int page, @RequestParam("size") int size){
+        return documentService.findPaginated(page, size);
     }
 
     @RequestMapping("/{document_id}")
