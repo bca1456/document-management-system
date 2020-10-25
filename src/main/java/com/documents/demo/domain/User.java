@@ -22,7 +22,7 @@ public class User implements UserDetails {
     private String password;
 
 //    @Transient //field not displayed in db
-    @ManyToMany(fetch = FetchType.EAGER)  //roles load when program start
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)  //roles load when program start
     @JoinTable(
             name = "t_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

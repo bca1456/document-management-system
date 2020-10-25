@@ -29,7 +29,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable() //for disable fake query
             .authorizeRequests()
                 //for non authorized users
-                .antMatchers("/api/v1/registration").not().fullyAuthenticated()
+                .antMatchers("/api/v1/registration/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 //only for admins

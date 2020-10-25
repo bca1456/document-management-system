@@ -5,6 +5,8 @@ import com.documents.demo.domain.User;
 import com.documents.demo.repos.RoleRepository;
 import com.documents.demo.repos.UserRepository;
 import com.documents.demo.service.UserService;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +44,8 @@ public class UserServiceImpl implements UserDetailsService,UserService {
             return false;
         }
 
-        user.setRoles(Collections.singleton(new Role("ROLE_USER")));
+        Set<Role> roles = Collections.singleton(new Role("ROLE_USER"));
+        user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -57,11 +60,11 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username){
         User user = userRepository.findByUsername(username);
 
         if (user == null){
-            throw new UsernameNotFoundException("User not found");
+            return null;
         }
 
 
