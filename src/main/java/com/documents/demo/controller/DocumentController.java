@@ -20,31 +20,31 @@ public class DocumentController {
     private DocumentService documentService;
 
     @ApiOperation(value = "get okay string idk for what =)")
-    @RequestMapping("/okay")
+    @RequestMapping(value = "/okay", method = RequestMethod.GET)
     public String getOkay(){
         return "okay";
     }
 
     @ApiOperation(value = "get all documents")
-    @RequestMapping(value = "/all")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Document> findAll(){
        return this.documentService.findAll();
     }
 
     @ApiOperation(value = "get all documents with pagination")
-    @RequestMapping(value = "/all", params = { "page", "size" })
+    @RequestMapping(value = "/all", params = { "page", "size" }, method = RequestMethod.GET)
     public Page<Document> findAll(@RequestParam("page") int page, @RequestParam("size") int size){
         return documentService.findPaginated(page, size);
     }
 
     @ApiOperation(value = "get document by id")
-    @RequestMapping("/{document_id}")
+    @RequestMapping(value = "/{document_id}", method = RequestMethod.GET)
     public Document findById(@PathVariable("document_id") int document_id){
         return documentService.findById(document_id);
     }
 
     @ApiOperation(value = "add document via post")
-    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Serializable addDocument(@RequestBody Document document){
 //        System.out.println(document.getCreationDate());
         if (documentService.addNew(document)){
@@ -54,7 +54,7 @@ public class DocumentController {
     }
 
     @ApiOperation(value = "delete document by id")
-    @DeleteMapping("/{document_id}")
+    @RequestMapping(value = "/{document_id}", method = RequestMethod.DELETE)
     public Serializable deleteDocument(@PathVariable("document_id") int document_id){
         if (documentService.deleteById(document_id)){
             return "ok";
@@ -63,7 +63,7 @@ public class DocumentController {
     }
 
     @ApiOperation(value = "update document via put")
-    @PutMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public Serializable updateDocument(@RequestBody Document document){
         if(documentService.update(document)){
             return document;
